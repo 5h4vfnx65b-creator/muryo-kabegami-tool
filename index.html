@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>無料壁紙ツール</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  
+  <!-- 上バナー（ここに広告コードを貼る） -->
+  <div class="ad-slot ad-slot-top" id="ad-slot-top">
+    <div class="ad-placeholder">AD TOP</div>
+  </div>
+<header class="header">
+    <div class="brand">
+      <div class="logo">無料</div>
+      <div>
+        <div class="brand-title">無料壁紙ツール</div>
+        <div class="brand-sub">写真を切らずに、壁紙サイズに最適化</div>
+      </div>
+    </div>
+
+    <!-- Top ad slot (placeholder) -->
+    <div class="ad-slot" aria-label="広告枠（上）">
+      <div class="ad-label">広告</div>
+      <div class="ad-box">ここに広告（例: AdSense/他）</div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h1 class="h1">壁紙を作る</h1>
+
+      <div class="grid">
+        <div class="field">
+          <label class="label" for="deviceSelect">機種</label>
+          <select id="deviceSelect" class="select"></select>
+          <div class="hint">iPhoneは自動で縦向き（Portrait）出力です</div>
+        </div>
+
+        <div class="field">
+          <label class="label" for="fileInput">写真</label>
+          <input id="fileInput" class="file" type="file" accept="image/*" />
+          <div class="hint">JPG/PNG推奨。大きい写真ほど綺麗。</div>
+        </div>
+      
+        <div class="field">
+          <label class="label" for="finishSelect">仕上げ</label>
+          <select id="finishSelect" class="select">
+            <option value="sharp" selected>くっきり（ぼかし無し）</option>
+            <option value="soft">自然（ぼかし）</option>
+            <option value="cover">背景をそのまま拡大（ぼかし無し）</option>
+          </select>
+          <div class="hint">※「生成（風景を作る）」はサーバー側の画像拡張が必要です（後で追加できます）</div>
+        </div>
+
+      </div>
+
+      
+        <div class="field">
+          <label class="label" for="genSelect">仕上げ（生成）</label>
+          <select id="genSelect" class="select">
+            <option value="local" selected>無料（端を整えるだけ／速い）</option>
+            <option value="ai">生成（周りの風景を作る／広告視聴）</option>
+          </select>
+          <div class="hint">※「生成」はサーバー側で拡張します。広告が再生できない時は自動で無料版に切り替えます。</div>
+        </div>
+
+      <div class="actions">
+        <button id="generateBtn" class="btn primary" disabled>生成する</button>
+        <button id="resetBtn" class="btn" disabled>リセット</button>
+      </div>
+
+      <div class="divider"></div>
+
+      <details class="details">
+        <summary>カスタムサイズ（上級）</summary>
+        <div class="grid">
+          <div class="field">
+            <label class="label" for="customW">幅(px)</label>
+            <input id="customW" class="input" inputmode="numeric" placeholder="例: 1170" />
+          </div>
+          <div class="field">
+            <label class="label" for="customH">高さ(px)</label>
+            <input id="customH" class="input" inputmode="numeric" placeholder="例: 2532" />
+          </div>
+        </div>
+        <div class="hint">入力すると機種プリセットより優先されます。</div>
+      </details>
+    </section>
+
+    <section class="card">
+      <h2 class="h2">プレビュー</h2>
+
+      <div id="previewEmpty" class="empty">
+        ここに生成結果が表示されます
+      </div>
+
+      <div id="previewWrap" class="preview-wrap hidden">
+        <img id="previewImg" class="preview-img" alt="壁紙プレビュー" />
+        <div class="preview-meta" id="previewMeta"></div>
+
+        <div class="actions">
+          <button id="downloadBtn" class="btn primary" disabled>ダウンロード</button>
+          <a id="downloadLink" class="hidden" download="wallpaper.png">download</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Bottom ad slot (placeholder) -->
+  <footer class="footer">
+    <div class="ad-slot" aria-label="広告枠（下）">
+      <div class="ad-label">広告</div>
+      <div class="ad-box">ここに広告（例: AdSense/他）</div>
+    </div>
+    <div class="footnote">© 無料壁紙ツール</div>
+  </footer>
+
+  <!-- Processing overlay -->
+  <div id="overlay" class="overlay hidden" role="dialog" aria-modal="true" aria-label="生成中">
+    <div class="overlay-card">
+      <div class="spinner"></div>
+      <div class="overlay-title">最適化しています…</div>
+      <div class="overlay-sub">少しだけ待ってね</div>
+
+      <!-- Mid ad slot (placeholder) -->
+      <div class="ad-slot compact" aria-label="広告枠（生成中）">
+        <div class="ad-label">広告</div>
+        <div class="ad-box">ここに広告（生成中画面）</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rewarded modal (placeholder) -->
+  <div id="rewardModal" class="modal hidden" role="dialog" aria-modal="true" aria-label="ダウンロード前の確認">
+    <div class="modal-card">
+      <div class="modal-title">ダウンロードの前に</div>
+      <div class="modal-sub">無料提供のため、短い広告を表示します。</div>
+
+      <div class="ad-slot" aria-label="広告枠（リワード）">
+        <div class="ad-label">広告</div>
+        <div class="ad-box">ここにリワード広告（例: rewarded/動画/ネイティブ）</div>
+      </div>
+
+      <div class="modal-actions">
+        <button id="rewardContinueBtn" class="btn primary" disabled>
+          続ける（<span id="rewardCountdown">3</span>）
+        </button>
+        <button id="rewardCancelBtn" class="btn">キャンセル</button>
+      </div>
+
+      <div class="hint">
+        ※ ここはプレースホルダーです。実際の広告SDKに置き換えてください。
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./app.js"></script>
+
+  <!-- 下バナー（ここに広告コードを貼る） -->
+  <div class="ad-slot ad-slot-bottom" id="ad-slot-bottom">
+    <div class="ad-placeholder">AD BOTTOM</div>
+  </div>
+</body>
+</html>

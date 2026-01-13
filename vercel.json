@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/extend.js": {
+      "maxDuration": 60
+    }
+  }
+}
